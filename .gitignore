@@ -10,3 +10,5 @@ __init__.py
 
 # Database
 *.sqlite3
+
+*.DS_Store
