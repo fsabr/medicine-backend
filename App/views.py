@@ -19,7 +19,7 @@ def doc_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 @api_view(['GET', 'DELETE'])
 def single_doc(request, pk):
@@ -34,7 +34,7 @@ def single_doc(request, pk):
     elif request.method == 'DELETE':
         sampleItem.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 @api_view(['GET', 'POST'])
 def patient_list(request):
@@ -49,7 +49,7 @@ def patient_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 @api_view(['GET', 'DELETE'])
 def single_patient(request, pk):
@@ -64,7 +64,7 @@ def single_patient(request, pk):
     elif request.method == 'DELETE':
         sampleItem.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 @api_view(['GET', 'POST'])
 def medicine_list(request):
@@ -79,4 +79,15 @@ def medicine_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+@api_view(['GET'])
+def med_info(request, text):
+    if request.method == 'GET':
+        filter_meds = Medicine.objects.filter(name__icontains=text)
+        if filter_meds.exists():
+            serial_filter_meds = MedicineSerializer(filter_meds, many=True)
+            return Response(serial_filter_meds.data)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
