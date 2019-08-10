@@ -14,4 +14,4 @@ __init__.py
 *.DS_Store
 
 # Media Files
-uploaded_media/
+*.png

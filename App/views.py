@@ -1,16 +1,20 @@
 from django.shortcuts import render
 
+from django.db.models import Q
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Doctor, Patient, Medicine
 from .serializers import DoctorSerializer, PatientSerializer, MedicineSerializer
 
-from PIL import Image
-import pytesseract
+from google.cloud import vision
 
 import os
 import re
+import io
+
+from functools import reduce
 
 from ImageUpload.models import UploadedImage
 
@@ -91,6 +95,8 @@ def medicine_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+client = vision.ImageAnnotatorClient()
+
 @api_view(['GET'])
 def med_info(request, pk):
     if request.method == 'GET':
@@ -99,13 +105,25 @@ def med_info(request, pk):
         except UploadedImage.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         image_name = str(img.image)
-        text = pytesseract.image_to_string(os.path.join('../uploaded_media', image_name))
-        list_of_words = re.split(' |, |\*|\n', text)
-        filter_meds = Medicine.objects.none()
+        with io.open(os.path.join('media/', image_name), 'rb') as img_file:
+            content = img_file.read()
+        image = vision.types.Image(content=content)
+        res = client.text_detection(image=image)
+        #text = pytesseract.image_to_string(os.path.join('media/', image_name))
+        text = res.text_annotations[0].description
+        print(text)
+        all_list_of_words = re.split(' |, |\*|\n', text)
+        # filter_meds = Medicine.objects.none()
+        print(all_list_of_words)
+
+        list_of_words = []
+        avg_word_len = sum(map(len, all_list_of_words))/len(all_list_of_words)
+        for word in all_list_of_words:
+            if len(word) >= avg_word_len:
+                list_of_words.append(word)
+
         print(list_of_words)
-        for word in list_of_words:
-            if len(word) > 1:
-                filter_meds = filter_meds.union(Medicine.objects.filter(name__icontains=word))
+        filter_meds = Medicine.objects.filter(reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in list_of_words]))
         print(filter_meds)
         if filter_meds.exists():
             serial_filter_meds = MedicineSerializer(filter_meds, many=True)

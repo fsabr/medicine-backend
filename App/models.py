@@ -22,8 +22,6 @@ class Patient(models.Model):
         return self.email
 
 class Medicine(models.Model):
-    IMAGE_PATH = 'images/'
-
     name    = models.CharField(max_length=255, blank=False, unique=False)
     tabletn = models.IntegerField(default=0)
     time    = models.CharField(max_length=255, blank=True, unique=False)
