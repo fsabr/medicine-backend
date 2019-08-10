@@ -8,5 +8,5 @@ urlpatterns = [
     path('patient/', patient_list),
     path('patient/<int:pk>', single_patient),
     path('medicine/', medicine_list),
-    path('medinfo/<str:text>', med_info)
+    path('medinfo/<int:pk>', med_info)
 ]

@@ -4,6 +4,14 @@ from rest_framework.response import Response
 from .models import Doctor, Patient, Medicine
 from .serializers import DoctorSerializer, PatientSerializer, MedicineSerializer
 
+from PIL import Image
+import pytesseract
+
+import os
+import re
+
+from ImageUpload.models import UploadedImage
+
 # Create your views here.
 
 @api_view(['GET', 'POST'])
@@ -82,9 +90,21 @@ def medicine_list(request):
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 @api_view(['GET'])
-def med_info(request, text):
+def med_info(request, pk):
     if request.method == 'GET':
-        filter_meds = Medicine.objects.filter(name__icontains=text)
+        try:
+            img = UploadedImage.objects.get(pk=pk)
+        except UploadedImage.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        image_name = str(img.image)
+        text = pytesseract.image_to_string(os.path.join('../uploaded_media', image_name))
+        list_of_words = re.split(' |, |\*|\n', text)
+        filter_meds = Medicine.objects.none()
+        print(list_of_words)
+        for word in list_of_words:
+            if len(word) > 1:
+                filter_meds = filter_meds.union(Medicine.objects.filter(name__icontains=word))
+        print(filter_meds)
         if filter_meds.exists():
             serial_filter_meds = MedicineSerializer(filter_meds, many=True)
             return Response(serial_filter_meds.data)
