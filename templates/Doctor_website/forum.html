@@ -1,0 +1,7 @@
+{% extends 'Doctor_website/forum_base.html' %}
+
+{% block content %}
+	{% for post in posts %}
+		<h1> <a href="/forum/{{ post.id }}"> {{ post.title }} </a> </h1>
+	{% endfor %}
+{% endblock %}

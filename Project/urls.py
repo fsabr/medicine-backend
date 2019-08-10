@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^upload/', include('ImageUpload_REST.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('', include('App.urls'))
+    path('', include('App.urls')),
+    path('', include('Forum.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
