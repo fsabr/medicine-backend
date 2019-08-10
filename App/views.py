@@ -1,3 +1,5 @@
+from django.shortcuts import render
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -111,3 +113,9 @@ def med_info(request, pk):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+def doc_site(request):
+    return render(request, 'Doctor_website/index.html')
+
+def assign_prescription(request):
+    return render(request, 'Doctor_website/single-blog.html')
