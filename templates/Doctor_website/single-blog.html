@@ -95,10 +95,11 @@
                   <h4>ENTER PATIENT PRESCRIPTION</h4>
 
             <form class="form-signin" method="POST" action="/medicine/">{% csrf_token %}
-  <h2 class="form-signin-heading">Please sign in</h2>
-	<input class="form-control" type="text" required name="name" placeholder="name">
-	<input class="form-control" type="number" required name="tabletn" placeholder="no tablet">
-  <input class="form-control" type="text" required name="time" placeholder="time">
+  <h2 class="form-signin-heading">Please Assign/Update Medicines</h2>
+	<input class="form-control" type="text" required name="name" placeholder="Name of Tablet">
+	<input class="form-control" type="number" required name="tabletn" placeholder="Tablets per day">
+  <input class="form-control" type="text" required name="time" placeholder="Time">
+  <input class="form-control" type="text" required name="time" placeholder="For how many days?">
   <label class="checkbox"></label>
   <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
 </form>
