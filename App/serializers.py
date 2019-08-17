@@ -14,7 +14,7 @@ class PatientSerializer(serializers.ModelSerializer):
 class MedicineSerializer(serializers.ModelSerializer):
     class Meta:
         model  = Medicine
-        fields = ('id', 'name', 'tabletd', 'time','days', 'taken_id') 
+        fields = ('id', 'name', 'tabletd', 'time','days') 
 
 class MedicineTakeSerializer(serializers.ModelSerializer):
     class Meta:
