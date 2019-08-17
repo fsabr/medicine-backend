@@ -2,7 +2,31 @@
 
 {% block content %}
 	<h1> {{ post.title }} </h1>
+	<h5>{{ post.description }} </h5>
 	{% for comment in comments %}
-		<li> {{ comment.description }} </li>
+<div class="media-body">
+	
+	<div class="well well-lg">
+		 <a class="pull-left" href="#">
+		 	<img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/lady_katherine/128.jpg"
+		 		alt="profile">
+		 </a>
+		<h4 class="media-heading text-uppercase reviews">Marco </h4>
+		
+			{{ comment.description }}
+		<a class="btn btn-info btn-circle text-uppercase" href="#" id="reply"><span
+				class="glyphicon glyphicon-share-alt"></span> Reply</a>
+		<a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" href="#replyOne"><span
+				class="glyphicon glyphicon-comment"></span> 2 comments</a>
+	</div>
+</div>
+
+
+<form class="form-signin" method="POST" id="testform">{% csrf_token %}
+	<h2 class="form-signin-heading">Write comment : </h2>
+	<textarea class="form-control" rows="5" id="comment"></textarea>
+	<button class="btn btn-lg btn-primary" type="submit">Submit</button>
+</form>
 	{% endfor %}
 {% endblock %}
+

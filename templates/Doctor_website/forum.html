@@ -1,7 +1,24 @@
 {% extends 'Doctor_website/forum_base.html' %}
 
+
 {% block content %}
 	{% for post in posts %}
-		<h1> <a href="/forum/{{ post.id }}"> {{ post.title }} </a> </h1>
+	
+		
+	<div class="container">
+		<div class="jumbotron" style="background-color: lightgray">
+			<h1 style="color:black"> {{ post.title }}</h1>
+			<button type="button" class="btn btn-lg btn-primary"><a href="/forum/{{ post.id }}" style="color: white"> Go to post </a></button>
+	</div>
+
 	{% endfor %}
+	<form class="form-signin" method="POST" id="testform">{% csrf_token %}
+		<h2 class="form-signin-heading">Write post : </h2>
+			<textarea class="form-control" rows="5" id="comment"></textarea>
+			<button class="btn btn-lg btn-primary" type="submit">Submit</button>
+	</form>
 {% endblock %}
+
+
+
+
