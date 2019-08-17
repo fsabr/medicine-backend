@@ -22,11 +22,12 @@
 </div>
 
 
-<form class="form-signin" method="POST" id="testform">{% csrf_token %}
-	<h2 class="form-signin-heading">Write comment : </h2>
-	<textarea class="form-control" rows="5" id="comment"></textarea>
-	<button class="btn btn-lg btn-primary" type="submit">Submit</button>
-</form>
-	{% endfor %}
+{% endfor %}
+	<form class="form-signin" method="POST" id="testform" action="/comment/">{% csrf_token %}
+		<h2 class="form-signin-heading">Write comment : </h2>
+		<input type='hidden' name='post_id' value={{ post.pk }}>
+		<textarea class="form-control" rows="5" name="description"></textarea>
+		<button class="btn btn-lg btn-primary" type="submit">Submit</button>
+	</form>
 {% endblock %}
 
