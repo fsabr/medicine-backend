@@ -89,9 +89,32 @@ def medicine_list(request):
     elif request.method == 'POST':
         print(request.data)
         serializer = MedicineSerializer(data=request.data)
+        
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            try:
+                # all_docs            = Medicine.objects.all()
+                # all_serialized_docs = MedicineSerializer(all_docs, many=True)
+                # print(all_serialized_docs.data)
+
+                all_docs = Medicine.objects.get(name = request.data['name'])
+                print(all_docs)
+                print("LOL\n\n\n\n\nLOL")
+                print(serializer)
+                print("LOL\n\n\n\n\nLOL")
+                
+                all_docs.name = request.data['name']
+                print(all_docs)
+                all_docs.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                
+                
+            except Medicine.DoesNotExist:
+                # if(serializer not in all_serialized_docs.data):
+                
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
+                # else:
+            #     print("LOL")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
