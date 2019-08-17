@@ -3,21 +3,24 @@
 
 {% block content %}
 	{% for post in posts %}
-	
+
 		
-	<div class="container">
-		<div class="jumbotron" style="background-color: lightgray">
-			<h1 style="color:black"> {{ post.title }}</h1>
-			<button type="button" class="btn btn-lg btn-primary"><a href="/forum/{{ post.id }}" style="color: white"> Go to post </a></button>
-	</div>
+			<div class="jumbotron" style="background-color: lightgray">
+				<h1 style="color:black"> {{ post.title }}</h1>
+				<button type="button" class="btn btn-lg btn-primary"><a href="/forum/{{ post.id }}" style="color: white"> Go
+						to post </a></button>
+		</div>
+
 
 	{% endfor %}
 	<form class="form-signin" method="POST" id="testform" action="/forum/">{% csrf_token %}
 		<h2 class="form-signin-heading">Write post : </h2>
 			<input type="hidden" name="category" value="{{ category }}">
 			<input type="text" required name="title">
+			<br>
 			<!-- <input type="text" required name="description"> -->
 			<textarea name="description" rows="10" cols="30"></textarea>
+			<br>
 			<button class="btn btn-lg btn-primary" type="submit">Submit</button>
 	</form>
 {% endblock %}
