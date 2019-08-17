@@ -23,8 +23,9 @@ class Patient(models.Model):
 
 class Medicine(models.Model):
     name    = models.CharField(max_length=255, blank=False, unique=False)
-    tabletn = models.IntegerField(default=0)
+    tabletd = models.IntegerField(default=0)
     time    = models.CharField(max_length=255, blank=True, unique=False)
+    days    = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
