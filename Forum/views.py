@@ -8,7 +8,12 @@ from rest_framework.response import Response
 
 def forum(request):
     if request.method == 'GET':
-        all_posts = Post.objects.all()
+        return render(request, 'Doctor_website/forum_home.html')
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+def forum_category(request, category):
+    if request.method == 'GET':
+        all_posts = Post.objects.filter(category=category)
         return render(request, 'Doctor_website/forum.html', {"posts" : all_posts})
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 

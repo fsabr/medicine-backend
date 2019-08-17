@@ -10,6 +10,7 @@ class Post(models.Model):
     description = models.CharField(max_length=1024)
     created_at  = models.DateTimeField(auto_now_add=True)
     votes       = models.IntegerField(default=0)
+    category    = models.CharField(max_length=127)
 
 class Comment(models.Model):
     user_type   = models.CharField(max_length=10)
