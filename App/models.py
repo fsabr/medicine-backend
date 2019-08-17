@@ -21,11 +21,21 @@ class Patient(models.Model):
     def __str__(self):
         return self.email
 
+class MedicineTake(models.Model):
+    day    = models.CharField(max_length=255, blank=False, unique=False)
+    total = models.IntegerField(default=0)
+    taken = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.day
+
+
 class Medicine(models.Model):
     name    = models.CharField(max_length=255, blank=False, unique=False)
     tabletd = models.IntegerField(default=0)
     time    = models.CharField(max_length=255, blank=True, unique=False)
     days    = models.IntegerField(default=0)
+    taken   = models.ForeignKey(MedicineTake, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.name
