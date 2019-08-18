@@ -123,26 +123,26 @@ def medicine_list(request):
 client = vision.ImageAnnotatorClient()
 
 @api_view(['GET'])
-def med_info(request, pk):
+def med_info(request):
     if request.method == 'GET':
-        try:
-            img = UploadedImage.objects.get(pk=7)
-            img2 = UploadedImage.objects.get(pk=8)
-        except UploadedImage.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        image_name = str(img.image)
-        image_name2 = str(img2.image)
+        # try:
+        #     img = UploadedImage.objects.get(pk=7)
+        #     img2 = UploadedImage.objects.get(pk=8)
+        # except UploadedImage.DoesNotExist:
+        #     return Response(status=status.HTTP_404_NOT_FOUND)
+        # image_name = str(img.image)
+        # image_name2 = str(img2.image)
         
-        with io.open(os.path.join('media/', image_name), 'rb') as img_file:
+        with io.open('test.jpeg', 'rb') as img_file:
             content = img_file.read()
-        with io.open(os.path.join('media/', image_name2), 'rb') as img_file:
-            content2 = img_file.read()
+        # with io.open(os.path.join('media/', image_name2), 'rb') as img_file:
+        #     content2 = img_file.read()
         image = vision.types.Image(content=content)
-        image2 = vision.types.Image(content=content2)
+        # image2 = vision.types.Image(content=content2)
         res = client.text_detection(image=image)
         #text = pytesseract.image_to_string(os.path.join('media/', image_name))
         text = res.text_annotations[0].description
-        print(text)
+        # print(text)
         all_list_of_words = re.split(' |, |\*|\n', text)
         # filter_meds = Medicine.objects.none()
         print(all_list_of_words)
@@ -157,58 +157,58 @@ def med_info(request, pk):
         filter_meds = Medicine.objects.filter(reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in list_of_words]))
         print(filter_meds)
 
-        print("LOL\n\n\n\n\nLOL")
+        # print("LOL\n\n\n\n\nLOL")
         # print(image)
         # print("LOL\n\n\n\n\nLOL")
         # image = fun(image)
         
-        response = client.image_properties(image=image)
-        props = response.image_properties_annotation
+        # response = client.image_properties(image=image)
+        # props = response.image_properties_annotation
 
-        response2 = client.image_properties(image=image2)
-        props2 = response2.image_properties_annotation
+        # response2 = client.image_properties(image=image2)
+        # props2 = response2.image_properties_annotation
 
-        print('Properties:')
-        r = 0
-        b = 0
-        g = 0
-        score = {'1':23 }
-
-
-        for color in props.dominant_colors.colors:
-            print('fraction: {}'.format(color.pixel_fraction))
-            print('\tr: {}'.format(color.color.red))
-            r=str(color.color.red) +""
-            r+=str(color.color.blue)
-            r+=str(color.color.green)
-            print('\tg: {}'.format(color.color.green))
-            print('\tb: {}'.format(color.color.blue))
-            print('\ta: {}'.format(color.color.alpha))
-            #print(r+"LOL")
-            score[r] = color.pixel_fraction
-            print("Score : {}".format(score[r]))
+        # print('Properties:')
+        # r = 0
+        # b = 0
+        # g = 0
+        # score = {'1':23 }
 
 
+        # for color in props.dominant_colors.colors:
+        #     print('fraction: {}'.format(color.pixel_fraction))
+        #     print('\tr: {}'.format(color.color.red))
+        #     r=str(color.color.red) +""
+        #     r+=str(color.color.blue)
+        #     r+=str(color.color.green)
+        #     print('\tg: {}'.format(color.color.green))
+        #     print('\tb: {}'.format(color.color.blue))
+        #     print('\ta: {}'.format(color.color.alpha))
+        #     #print(r+"LOL")
+        #     score[r] = color.pixel_fraction
+        #     print("Score : {}".format(score[r]))
 
-        score2 = {'1':23 }
-        count = 1
 
 
-        for color in props2.dominant_colors.colors:
-            print('fraction: {}'.format(color.pixel_fraction))
-            print('\tr: {}'.format(color.color.red))
-            r=str(color.color.red) +""
-            r+=str(color.color.blue)
-            r+=str(color.color.green)
-            print('\tg: {}'.format(color.color.green))
-            print('\tb: {}'.format(color.color.blue))
-            print('\ta: {}'.format(color.color.alpha))
-            #print(r+"LOL")
-            score2[r] = color.pixel_fraction
-            print("Score : {}".format(score2[r]))
+        # score2 = {'1':23 }
+        # count = 1
+
+
+        # for color in props2.dominant_colors.colors:
+        #     print('fraction: {}'.format(color.pixel_fraction))
+        #     print('\tr: {}'.format(color.color.red))
+        #     r=str(color.color.red) +""
+        #     r+=str(color.color.blue)
+        #     r+=str(color.color.green)
+        #     print('\tg: {}'.format(color.color.green))
+        #     print('\tb: {}'.format(color.color.blue))
+        #     print('\ta: {}'.format(color.color.alpha))
+        #     #print(r+"LOL")
+        #     score2[r] = color.pixel_fraction
+        #     print("Score : {}".format(score2[r]))
             
-        print(score)
-        print(score2)
+        # print(score)
+        # print(score2)
 
 
         if filter_meds.exists():

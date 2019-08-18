@@ -9,7 +9,7 @@ urlpatterns = [
     path('patient/', patient_list),
     path('patient/<int:pk>', single_patient),
     path('medicine/', medicine_list),
-    path('medinfo/<int:pk>', med_info),
+    path('medinfo/', med_info),
     path('home/', doc_site),
     path('prescription/', assign_prescription)
 ]
