@@ -18,3 +18,5 @@ __init__.py
 media/*.jpg
 media/*.jpeg
 media/*.png
+
+test.jpeg
