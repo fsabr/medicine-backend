@@ -21,13 +21,13 @@ class Patient(models.Model):
     def __str__(self):
         return self.email
 
-class MedicineTake(models.Model):
-    day    = models.CharField(max_length=255, blank=False, unique=False)
-    total = models.IntegerField(default=0)
-    taken = models.IntegerField(default=0)
+# class MedicineTake(models.Model):
+#     day    = models.CharField(max_length=255, blank=False, unique=False)
+#     total = models.IntegerField(default=0)
+#     taken = models.IntegerField(default=0)
 
-    def __str__(self):
-        return self.day
+#     def __str__(self):
+#         return self.day
 
 
 class Medicine(models.Model):
